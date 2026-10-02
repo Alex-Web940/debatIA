@@ -1,5 +1,7 @@
 import "dotenv/config";
 import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 import { validarConfiguracion } from "./src/config/validar-env.js";
 import { AGENTE, RIVAL } from "./src/config/agente.js";
 import { PORT, HOST, TURNOS_MAX } from "./src/config/debate.js";
@@ -14,7 +16,8 @@ validarConfiguracion();
 await cargarConfiguracion();
 
 const app = express();
-app.use(express.static("public"));
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.join(__dirname, "public")));
 
 
 // Permite llamadas desde el panel de control (que corre en otro origen: file://, otro puerto, otra PC).

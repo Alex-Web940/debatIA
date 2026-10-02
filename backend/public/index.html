@@ -239,19 +239,21 @@
   let lastRenderedAutor = null;
   let pollTimer = null;
   let enviando = false;
+  // Si el panel lo sirve el propio backend (Render, localhost), usa su mismo origen.
+  const DEFAULT_BASE = location.protocol.startsWith('http') ? location.origin : 'http://127.0.0.1:8000';
   let rivalNombre = 'NOVA';
   let propioAutor = 'IA-A';
 
   function getBaseUrl(){
     let v = baseUrlInput.value.trim();
-    if(!v) v = 'http://127.0.0.1:8000';
+    if(!v) v = DEFAULT_BASE;
     return v.replace(/\/+$/, '');
   }
 
   function loadSaved(){
     let saved = null;
     try{ saved = localStorage.getItem(STORAGE_KEY); }catch(e){}
-    baseUrlInput.value = saved || 'http://127.0.0.1:8000';
+    baseUrlInput.value = saved || DEFAULT_BASE;
   }
   function saveUrl(){
     try{ localStorage.setItem(STORAGE_KEY, getBaseUrl()); }catch(e){}
